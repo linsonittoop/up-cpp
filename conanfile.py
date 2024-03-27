@@ -35,11 +35,11 @@ class UpCpp(ConanFile):
         "build_cross_compiling": False,
     }
     up_core_api_version = "1.5.5"
-    
+
     def source(self):
         if not self.options.build_unbundled:
             self.run(f"git clone --branch uprotocol-core-api-{self.up_core_api_version} https://github.com/eclipse-uprotocol/up-core-api.git")
-        
+
     def requirements(self):
         if not self.options.build_cross_compiling:
             self.requires("protobuf/3.21.12")
@@ -47,10 +47,10 @@ class UpCpp(ConanFile):
             self.requires("protobuf/3.21.12@cross/cross")
         self.requires("spdlog/1.13.0")
         if self.options.build_testing:
-            self.requires("gtest/1.14.0")
+            self.requires("gtest/1.13.0")
         if self.options.build_unbundled:
             self.requires("up-core-api/{}".format(self.up_core_api_version))
-        
+
 
     def generate(self):
         tc = CMakeToolchain(self)

@@ -17,7 +17,7 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- * 
+ *
  * SPDX-FileType: SOURCE
  * SPDX-FileCopyrightText: 2023 General Motors GTO LLC
  * SPDX-License-Identifier: Apache-2.0
@@ -31,34 +31,34 @@
 
 #include "spdlog/spdlog.h"
 
-namespace cloudevents::format {
-class SpecVersion {
- public:
-  enum class SpecVersion_E {
-    V1,
-    NOT_DEFINED,
-  };
+namespace uprotocol::cloudevent {
+    class SpecVersion {
+    public:
+        enum class SpecVersion_E {
+          V1,
+          NOT_DEFINED,
+        };
 
-  inline static const std::string VERSION_SPEC_V1 = "v1";
+        inline static const std::string VERSION_SPEC_V1 = "v1";
 
-  [[nodiscard]] static std::string ToString(SpecVersion_E specVersionE) {
-    if (specVersionE == SpecVersion_E::V1) {
-      return VERSION_SPEC_V1;
-    } else {
-      spdlog::info("type of message enum not defined");
-      return "";
-    }
-  }
+        [[nodiscard]] static std::string ToString(SpecVersion_E specVersionE) {
+          if (specVersionE == SpecVersion_E::V1) {
+            return VERSION_SPEC_V1;
+          } else {
+            spdlog::info("type of message enum not defined");
+            return "";
+          }
+        }
 
-  [[nodiscard]] static SpecVersion_E getSpecVersionE(
-      const std::string_view& version_spec) {
-    if (version_spec == VERSION_SPEC_V1) {
-      return SpecVersion_E::V1;
-    }
-    spdlog::info("Version Spec is not defined\n");
-    return SpecVersion_E::NOT_DEFINED;
-  }
-};
+        [[nodiscard]] static SpecVersion_E getSpecVersionE(
+            const std::string_view& version_spec) {
+          if (version_spec == VERSION_SPEC_V1) {
+            return SpecVersion_E::V1;
+          }
+          spdlog::info("Version Spec is not defined\n");
+          return SpecVersion_E::NOT_DEFINED;
+        }
+    };
 }  // namespace cloudevents::format
 
 #endif  // CPP_COULDEVENT_SPEC_VERSION_H

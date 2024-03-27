@@ -17,7 +17,7 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- * 
+ *
  * SPDX-FileType: SOURCE
  * SPDX-FileCopyrightText: 2023 General Motors GTO LLC
  * SPDX-License-Identifier: Apache-2.0
@@ -36,8 +36,7 @@
 #include <google/protobuf/any.pb.h>
 #include <sys/time.h>
 
-#include "attributes.h"
-#include "cloud_event.h"
+#include "UCloudEventAttributes.h"
 #include "cloudevents.pb.h"
 #include "google/protobuf/util/time_util.h"
 #include "priority.h"
@@ -100,7 +99,7 @@ struct factory {
     if (auto ttl = attributes.get_ttl(); ttl.has_value()) {
       auto* attr = new CloudEvent_CloudEventAttributeValue();
       attr->set_ce_integer((int32_t)*ttl);
-      (*(ce).mutable_attributes())[Serializer::TTL_KEY] = *attr;
+      (*(ce).mutable_attributes())[UCloudEventValidator::TTL_KEY] = *attr;
     }
 
     return ok;
@@ -132,7 +131,7 @@ struct factory {
     if (auto ttl = attributes.get_ttl(); ttl.has_value()) {
       auto* attr = new CloudEvent_CloudEventAttributeValue();
       attr->set_ce_integer((int32_t)*ttl);
-      (*(ce).mutable_attributes())[Serializer::TTL_KEY] = *attr;
+      (*(ce).mutable_attributes())[UCloudEventValidator::TTL_KEY] = *attr;
     }
 
     return ok;
@@ -177,7 +176,7 @@ struct factory {
       auto* attr = new CloudEvent_CloudEventAttributeValue();
       std::string str = std::string(sinkUri);
       attr->set_ce_string(str);
-      (*(ce).mutable_attributes())[Serializer::SINK_KEY] = *attr;
+      (*(ce).mutable_attributes())[UCloudEventValidator::SINK_KEY] = *attr;
     } else {
       spdlog::error("Sink URI is not a Valid URI, {}, in {}\n",
                     sinkUri.empty() ? "EMPTY" : sinkUri.c_str(), __func__);
@@ -188,7 +187,7 @@ struct factory {
     if (auto ttl = attributes.get_ttl(); ttl.has_value()) {
       auto* attr = new CloudEvent_CloudEventAttributeValue();
       attr->set_ce_integer((int32_t)*ttl);
-      (*(ce).mutable_attributes())[Serializer::TTL_KEY] = *attr;
+      (*(ce).mutable_attributes())[UCloudEventValidator::TTL_KEY] = *attr;
     }
 
     return ok;
@@ -232,7 +231,7 @@ struct factory {
       auto* attr = new CloudEvent_CloudEventAttributeValue();
       std::string str = std::string(sinkUri);
       attr->set_ce_string(str);
-      (*(ce).mutable_attributes())[Serializer::SINK_KEY] = *attr;
+      (*(ce).mutable_attributes())[UCloudEventValidator::SINK_KEY] = *attr;
     } else {
       spdlog::error("Sink URI is not a Valid URI, {}, in {}\n",
                     sinkUri.empty() ? "EMPTY" : sinkUri.c_str(), __func__);
@@ -243,7 +242,7 @@ struct factory {
     if (auto ttl = attributes.get_ttl(); ttl.has_value()) {
       auto* attr = new CloudEvent_CloudEventAttributeValue();
       attr->set_ce_integer((int32_t)*ttl);
-      (*(ce).mutable_attributes())[Serializer::TTL_KEY] = *attr;
+      (*(ce).mutable_attributes())[UCloudEventValidator::TTL_KEY] = *attr;
     }
 
     return ok;
@@ -281,7 +280,7 @@ struct factory {
         auto* attr = new CloudEvent_CloudEventAttributeValue();
         std::string str = std::string(sinkUri);
         attr->set_ce_string(str);
-        (*(ce).mutable_attributes())[Serializer::TTL_KEY] = *attr;
+        (*(ce).mutable_attributes())[UCloudEventValidator::TTL_KEY] = *attr;
       }
     }
 
@@ -289,7 +288,7 @@ struct factory {
     if (auto ttl = attributes.get_ttl(); ttl.has_value()) {
       auto* attr = new CloudEvent_CloudEventAttributeValue();
       attr->set_ce_integer((int32_t)*ttl);
-      (*(ce).mutable_attributes())[Serializer::TTL_KEY] = *attr;
+      (*(ce).mutable_attributes())[UCloudEventValidator::TTL_KEY] = *attr;
     }
 
     return ok;
@@ -324,7 +323,7 @@ struct factory {
         auto* attr = new CloudEvent_CloudEventAttributeValue();
         std::string str = std::string(sinkUri);
         attr->set_ce_string(str);
-        (*(ce).mutable_attributes())[Serializer::SINK_KEY] = *attr;
+        (*(ce).mutable_attributes())[UCloudEventValidator::SINK_KEY] = *attr;
       }
     }
 
@@ -333,7 +332,7 @@ struct factory {
       auto* attr = new CloudEvent_CloudEventAttributeValue();
       attr->set_ce_integer((int32_t)*ttl);
 
-      (*(ce).mutable_attributes())[Serializer::TTL_KEY] = *attr;
+      (*(ce).mutable_attributes())[UCloudEventValidator::TTL_KEY] = *attr;
     }
     return ok;
   }
@@ -368,7 +367,7 @@ struct factory {
       auto* attr = new CloudEvent_CloudEventAttributeValue();
       std::string str = std::string(sinkUri);
       attr->set_ce_string(str);
-      (*(ce).mutable_attributes())[Serializer::SINK_KEY] = *attr;
+      (*(ce).mutable_attributes())[UCloudEventValidator::SINK_KEY] = *attr;
     } else {
       spdlog::error("Sink URI is not a Valid URI, {} \n", sinkUri.c_str());
       return false;
@@ -377,7 +376,7 @@ struct factory {
     if (auto ttl = attributes.get_ttl(); likely(ttl.has_value())) {
       auto* attr = new CloudEvent_CloudEventAttributeValue();
       attr->set_ce_integer((int32_t)*ttl);
-      (*(ce).mutable_attributes())[Serializer::TTL_KEY] = *attr;
+      (*(ce).mutable_attributes())[UCloudEventValidator::TTL_KEY] = *attr;
     } else {
       spdlog::error("TTL is mandatory , and was not provided\n");
       return false;
@@ -413,7 +412,7 @@ struct factory {
       auto* attr = new CloudEvent_CloudEventAttributeValue();
       std::string str = std::string(sinkUri);
       attr->set_ce_string(str);
-      (*(ce).mutable_attributes())[Serializer::SINK_KEY] = *attr;
+      (*(ce).mutable_attributes())[UCloudEventValidator::SINK_KEY] = *attr;
     } else {
       spdlog::error("Sink URI is not a Valid URI, {} \n", sinkUri.c_str());
       return false;
@@ -422,7 +421,7 @@ struct factory {
     if (auto ttl = attributes.get_ttl(); likely(ttl.has_value())) {
       auto* attr = new CloudEvent_CloudEventAttributeValue();
       attr->set_ce_integer((int32_t)*ttl);
-      (*(ce).mutable_attributes())[Serializer::TTL_KEY] = *attr;
+      (*(ce).mutable_attributes())[UCloudEventValidator::TTL_KEY] = *attr;
     } else {
       spdlog::error("TTL is mandatory , and was not provided\n");
       return false;
@@ -466,7 +465,7 @@ struct factory {
     } else {
       auto* attr = new CloudEvent_CloudEventAttributeValue();
       attr->set_ce_string(reqId);
-      (*(ce).mutable_attributes())[Serializer::REQ_ID_KEY] = *attr;
+      (*(ce).mutable_attributes())[UCloudEventValidator::REQ_ID_KEY] = *attr;
     }
 
     if (unlikely(rpcUri.empty() || !valid_uri(rpcUri))) {
@@ -476,13 +475,13 @@ struct factory {
       auto* attr = new CloudEvent_CloudEventAttributeValue();
       std::string str = std::string(rpcUri);
       attr->set_ce_string(str);
-      (*(ce).mutable_attributes())[Serializer::SINK_KEY] = *attr;
+      (*(ce).mutable_attributes())[UCloudEventValidator::SINK_KEY] = *attr;
     }
 
     if (auto ttl = attributes.get_ttl(); ttl.has_value()) {
       auto* attr = new CloudEvent_CloudEventAttributeValue();
       attr->set_ce_integer((int32_t)*ttl);
-      (*(ce).mutable_attributes())[Serializer::TTL_KEY] = *attr;
+      (*(ce).mutable_attributes())[UCloudEventValidator::TTL_KEY] = *attr;
     } else {
       spdlog::error("TTL is mandatory , and was not provided\n");
       return false;
@@ -509,7 +508,7 @@ struct factory {
     } else {
       auto* attr = new CloudEvent_CloudEventAttributeValue();
       attr->set_ce_string(reqId);
-      (*(ce).mutable_attributes())[Serializer::REQ_ID_KEY] = *attr;
+      (*(ce).mutable_attributes())[UCloudEventValidator::REQ_ID_KEY] = *attr;
     }
 
     if (unlikely(rpcUri.empty() || !valid_uri(rpcUri))) {
@@ -519,13 +518,13 @@ struct factory {
       auto* attr = new CloudEvent_CloudEventAttributeValue();
       std::string str = std::string(rpcUri);
       attr->set_ce_string(str);
-      (*(ce).mutable_attributes())[Serializer::SINK_KEY] = *attr;
+      (*(ce).mutable_attributes())[UCloudEventValidator::SINK_KEY] = *attr;
     }
 
     if (auto ttl = attributes.get_ttl(); ttl.has_value()) {
       auto* attr = new CloudEvent_CloudEventAttributeValue();
       attr->set_ce_integer((int32_t)*ttl);
-      (*(ce).mutable_attributes())[Serializer::TTL_KEY] = *attr;
+      (*(ce).mutable_attributes())[UCloudEventValidator::TTL_KEY] = *attr;
     } else {
       spdlog::error("TTL is mandatory , and was not provided\n");
       return false;
@@ -544,7 +543,7 @@ struct factory {
     // C++ type in nano
     // auto start = std::chrono::high_resolution_clock::now();
     uint64_t duration = (now.tv_sec * 1000000) + now.tv_usec;
-    auto iter = ce.attributes().find(Serializer::TTL_KEY);
+    auto iter = ce.attributes().find(UCloudEventValidator::TTL_KEY);
     if (iter != ce.attributes().end()) {
       auto ttl = iter->second.ce_integer();
       std::string t_uuid_str = const_cast<std::string&>(ce.id());
@@ -588,7 +587,7 @@ events and mandatory or optional in the uProtocol
     if (likely(!any->type_url().empty())) {
       auto* attr = new CloudEvent_CloudEventAttributeValue();
       attr->set_ce_string(any->type_url());
-      (*(ce).mutable_attributes())[Serializer::DATA_SCHEMA_KEY] = *attr;
+      (*(ce).mutable_attributes())[UCloudEventValidator::DATA_SCHEMA_KEY] = *attr;
     } else {
       spdlog::error("Schema is empty");
       return false;
@@ -598,19 +597,19 @@ events and mandatory or optional in the uProtocol
     //                auto *attr = new
     //                CloudEvent_CloudEventAttributeValue();
     //                attr->set_ce_string(PROTOBUF_CONTENT_TYPE);
-    //                (*(ce).mutable_attributes())[Serializer::DATA_CONTENT_TYPE_KEY]
+    //                (*(ce).mutable_attributes())[UCloudEventValidator::DATA_CONTENT_TYPE_KEY]
     //                = *attr;
     //            }
     if (auto hash = attributs.get_hash(); hash.has_value()) {
       auto* attr = new CloudEvent_CloudEventAttributeValue();
       attr->set_ce_string(*hash);
-      (*(ce).mutable_attributes())[Serializer::HASH_KEY] = *attr;
+      (*(ce).mutable_attributes())[UCloudEventValidator::HASH_KEY] = *attr;
     }
 
     if (auto priority = attributs.get_priority_string(); priority.has_value()) {
       auto* attr = new CloudEvent_CloudEventAttributeValue();
       attr->set_ce_string(*priority);
-      (*(ce).mutable_attributes())[Serializer::PRIORITY_KEY] = *attr;
+      (*(ce).mutable_attributes())[UCloudEventValidator::PRIORITY_KEY] = *attr;
     }
     UUID uuid = Uuidv8Factory::create();
     ce.set_id(UuidSerializer::serializeToString(uuid));
@@ -647,7 +646,7 @@ events and mandatory or optional in the uProtocol
     if (likely(!object_name.empty())) {
       auto* attr = new CloudEvent_CloudEventAttributeValue();
       attr->set_ce_string(object_name);
-      (*(ce).mutable_attributes())[Serializer::DATA_SCHEMA_KEY] = *attr;
+      (*(ce).mutable_attributes())[UCloudEventValidator::DATA_SCHEMA_KEY] = *attr;
     } else {
       spdlog::error("Schema is empty");
       return false;
@@ -657,19 +656,19 @@ events and mandatory or optional in the uProtocol
     //                auto *attr = new
     //                CloudEvent_CloudEventAttributeValue();
     //                attr->set_ce_string(PROTOBUF_CONTENT_TYPE);
-    //                (*(ce).mutable_attributes())[Serializer::DATA_CONTENT_TYPE_KEY]
+    //                (*(ce).mutable_attributes())[UCloudEventValidator::DATA_CONTENT_TYPE_KEY]
     //                = *attr;
     //            }
     if (auto hash = attributs.get_hash(); hash.has_value()) {
       auto* attr = new CloudEvent_CloudEventAttributeValue();
       attr->set_ce_string(*hash);
-      (*(ce).mutable_attributes())[Serializer::HASH_KEY] = *attr;
+      (*(ce).mutable_attributes())[UCloudEventValidator::HASH_KEY] = *attr;
     }
 
     if (auto priority = attributs.get_priority_string(); priority.has_value()) {
       auto* attr = new CloudEvent_CloudEventAttributeValue();
       attr->set_ce_string(*priority);
-      (*(ce).mutable_attributes())[Serializer::PRIORITY_KEY] = *attr;
+      (*(ce).mutable_attributes())[UCloudEventValidator::PRIORITY_KEY] = *attr;
     }
 
     UUID uuid = Uuidv8Factory::create();

@@ -5,4 +5,7 @@ FIND_PACKAGE(Protobuf REQUIRED)
 INCLUDE_DIRECTORIES(${PROTOBUF_INCLUDE_DIR})
 protobuf_generate_cpp(PROTO_SRC PROTO_HEADER cloudevents.proto)
 ADD_LIBRARY(cloudevent_proto ${PROTO_HEADER} ${PROTO_SRC})
+target_include_directories(cloudevent_proto PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+)
 target_link_libraries(cloudevent_proto ${Protobuf_LIBRARIES})

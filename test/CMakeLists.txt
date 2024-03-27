@@ -25,57 +25,60 @@ enable_testing()
 
 find_package(GTest REQUIRED)
 
-
-#add_executable(json_serializer_test
-#			   json/json_serializer_test.cpp
-#			   ${CGREEN_INCLUDE_DIR}
-#			   ${SRC_HDR_MODEL}
-#			   ${SRC_HDR_JSON}
-#			   ${PROTO_HDR_FILE}
-#			   ${PROTO_CPP_FILE})
-
 file(GLOB_RECURSE SRC_PROTO_CORE_API "${CMAKE_CURRENT_BINARY_DIR}/up-core-api/uprotocol/*.cc")
 
-#add_executable(json_serializer_test
-#			   json/json_serializer_test.cpp
-#			   ${CGREEN_INCLUDE_DIR}
-#			   ${SRC_HDR_MODEL}
-#			   ${SRC_HDR_JSON}
-#			   ${PROTO_HDR_FILE}
-#			   ${PROTO_CPP_FILE})
+add_executable(CloudEventAttributesTest cloudevent/UCloudEventAttributesTest.cpp)
 
-#target_link_libraries(json_serializer_test ${CGREEN_LIBRARY} ${RapidJSON_LIBRARIES} up-cpp::up-cpp)
+target_link_libraries(CloudEventAttributesTest
+		PUBLIC
+			up-cpp::up-cpp
+			up-cpp::up-core-api-protos
+		PRIVATE
+			GTest::gtest_main
+			GTest::gmock
+			pthread
+)
 
-#add_executable(binary_serializer_test
-#				binary/binary_test.cpp
-#				${SRC_HDR_MODEL}
-#				${SRC_HDR_BINARY}
-#				${PROTO_HDR_FILE}
-#				${PROTO_CPP_FILE}
-#				)
+add_test("t-01-CloudEventAttributesTest" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/CloudEventAttributesTest)
 
-#target_link_libraries(binary_serializer_test ${CGREEN_LIBRARY} up-cpp::up-cpp)
-#add_test("t-01-binary-serializer" binary_serializer_test)
+add_executable(CloudEventProtobufSerializerTest cloudevent/ProtobufSerializerTest.cpp)
 
-# add_executable(priority_enum_test
-# 		model/priority_test.cpp)
-# target_link_libraries(priority_enum_test ${CGREEN_LIBRARY} up-cpp::up-cpp )
-# add_test("t-02-priority-enum-test" priority_enum_test)
+target_link_libraries(CloudEventProtobufSerializerTest
+		PUBLIC
+			up-cpp::up-cpp
+			cloudevent_proto
+			up-cpp::up-core-api-protos
+		PRIVATE
+			GTest::gtest_main
+			GTest::gmock
+			pthread
+)
 
-# add_executable(attribute_tests
-# 		model/attributes_test.cpp
-# 		${SRC_PROTO_CORE_API})
-# target_link_libraries(attribute_tests ${CGREEN_LIBRARY} up-cpp::up-cpp)
-# add_test("t-03-attribute-test" attribute_tests)
+add_test("t-02-CloudEventProtobufSerializerTest" CloudEventProtobufSerializerTest)
+
+add_executable(CloudEventJsonSerializerTest cloudevent/JsonSerializerTest.cpp)
+
+target_link_libraries(CloudEventJsonSerializerTest
+		PUBLIC
+			up-cpp::up-cpp
+			cloudevent_proto
+			up-cpp::up-core-api-protos
+		PRIVATE
+			GTest::gtest_main
+			GTest::gmock
+			pthread
+)
+
+add_test("t-03-CloudEventJsonSerializerTest" CloudEventJsonSerializerTest)
 
 add_executable(base64_test
 	tools/base64_test.cpp)
-target_link_libraries(base64_test 
+target_link_libraries(base64_test
  		PUBLIC
 			up-cpp::up-cpp
         PRIVATE
 			GTest::gtest_main
-			GTest::gmock    
+			GTest::gmock
 			pthread
 )
 add_test("t-06-base64-test" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/base64_test)
@@ -88,7 +91,7 @@ add_test("t-06-base64-test" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/base64_test)
 
 add_executable(UAuthorityTest
 	uri/builder/UAuthorityTest.cpp)
-target_link_libraries(UAuthorityTest 
+target_link_libraries(UAuthorityTest
 		PUBLIC
 			up-cpp::up-cpp
 			spdlog::spdlog
@@ -96,14 +99,14 @@ target_link_libraries(UAuthorityTest
 			protobuf::protobuf
 		PRIVATE
 			GTest::gtest_main
-			GTest::gmock    
+			GTest::gmock
 			pthread
 )
 add_test("t-09-UAuthorityTest" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/UAuthorityTest)
 
 add_executable(UEntityTest
 		uri/builder/UEntityTest.cpp)
-target_link_libraries(UEntityTest 
+target_link_libraries(UEntityTest
 		PUBLIC
 			up-cpp::up-cpp
 			spdlog::spdlog
@@ -111,14 +114,14 @@ target_link_libraries(UEntityTest
 			protobuf::protobuf
 		PRIVATE
 			GTest::gtest_main
-			GTest::gmock    
+			GTest::gmock
 			pthread
 )
 add_test("t-10-UEntityTest" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/UEntityTest)
 
 add_executable(UResourceTest
 	uri/builder/UResourceTest.cpp)
-target_link_libraries(UResourceTest 
+target_link_libraries(UResourceTest
 		PUBLIC
 			up-cpp::up-cpp
 			spdlog::spdlog
@@ -126,14 +129,14 @@ target_link_libraries(UResourceTest
 			protobuf::protobuf
 		PRIVATE
 			GTest::gtest_main
-			GTest::gmock    
+			GTest::gmock
 			pthread
 )
 add_test("t-11-UResourceTest" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/UResourceTest)
 
 add_executable(UUriTest
 	uri/builder/UUriTest.cpp)
-target_link_libraries(UUriTest 
+target_link_libraries(UUriTest
 		PUBLIC
 			up-cpp::up-cpp
 			spdlog::spdlog
@@ -141,7 +144,7 @@ target_link_libraries(UUriTest
 			protobuf::protobuf
 		PRIVATE
 			GTest::gtest_main
-			GTest::gmock    
+			GTest::gmock
 			pthread
 )
 add_test("t-12-UUriTest" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/UUriTest)
@@ -149,7 +152,7 @@ add_test("t-12-UUriTest" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/UUriTest)
 add_executable(LongUriSerializerTest
 		uri/serializer/LongUriSerializerTest.cpp)
 target_compile_options(LongUriSerializerTest PRIVATE -g -O0)
-target_link_libraries(LongUriSerializerTest 
+target_link_libraries(LongUriSerializerTest
 		PUBLIC
 			up-cpp::up-cpp
 			spdlog::spdlog
@@ -157,7 +160,7 @@ target_link_libraries(LongUriSerializerTest
 			protobuf::protobuf
 		PRIVATE
 			GTest::gtest_main
-			GTest::gmock    
+			GTest::gmock
 			pthread
 )
 add_test("t-13-LongUriSerializerTest" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/LongUriSerializerTest)
@@ -165,7 +168,7 @@ add_test("t-13-LongUriSerializerTest" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/LongUriS
 add_executable(MicroUriSerializerTest
 	uri/serializer/MicroUriSerializerTest.cpp)
 target_compile_options(MicroUriSerializerTest PRIVATE -g -O0)
-target_link_libraries(MicroUriSerializerTest 
+target_link_libraries(MicroUriSerializerTest
 		PUBLIC
 			up-cpp::up-cpp
 			spdlog::spdlog
@@ -173,7 +176,7 @@ target_link_libraries(MicroUriSerializerTest
 			protobuf::protobuf
 		PRIVATE
 			GTest::gtest_main
-			GTest::gmock    
+			GTest::gmock
 			pthread
 )
 add_test("t-14-MicroUriSerializerTest" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/MicroUriSerializerTest)
@@ -181,12 +184,12 @@ add_test("t-14-MicroUriSerializerTest" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/MicroUr
 # include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../)
 add_executable(umessagetypes_test
 	utransport/umessagetypes_test.cpp)
-target_link_libraries(umessagetypes_test 
+target_link_libraries(umessagetypes_test
 		PUBLIC
 			up-cpp::up-cpp
 		PRIVATE
 			GTest::gtest_main
-			GTest::gmock    
+			GTest::gmock
 			pthread
 )
 add_test("t-15-umessagetypes_test" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/umessagetypes_test)
@@ -194,12 +197,12 @@ add_test("t-15-umessagetypes_test" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/umessagetyp
 # include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../)
 add_executable(upayload_test
 	utransport/upayload_test.cpp)
-target_link_libraries(upayload_test 
+target_link_libraries(upayload_test
 		PUBLIC
 			up-cpp::up-cpp
 		PRIVATE
 			GTest::gtest_main
-			GTest::gmock    
+			GTest::gmock
 			pthread
 )
 add_test("t-16-upayload_test" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/upayload_test)
@@ -207,12 +210,12 @@ add_test("t-16-upayload_test" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/upayload_test)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../)
 add_executable(upriority_test
 	utransport/upriority_test.cpp)
-target_link_libraries(upriority_test 
+target_link_libraries(upriority_test
 		PUBLIC
 			up-cpp::up-cpp
 		PRIVATE
 			GTest::gtest_main
-			GTest::gmock    
+			GTest::gmock
 			pthread
 )
 add_test("t-17-upriority_test" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/upriority_test)
@@ -220,12 +223,13 @@ add_test("t-17-upriority_test" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/upriority_test)
 # include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../)
 add_executable(userializationhint_test
 	utransport/userializationhint_test.cpp)
-target_link_libraries(userializationhint_test 
+target_link_libraries(userializationhint_test
 		PUBLIC
 			up-cpp::up-cpp
 		PRIVATE
 			GTest::gtest_main
-			GTest::gmock    
+			GTest::gmock
 			pthread
 )
 add_test("t-18-userializationhint_test" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/userializationhint_test)
+
